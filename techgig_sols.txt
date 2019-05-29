@@ -1,0 +1,187 @@
+/*Enter your code here. Read input from STDIN. Print your output to STDOUT*/
+#include <iostream>
+using namespace std;
+void swap(int *a, int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void quicksort(int arr[], int l, int r)
+{
+    if (l >= r)
+    {
+        return;
+    }
+    int pivot = arr[r];
+    int cnt = l;
+    for (int i = l; i <= r; i++)
+    {
+        if (arr[i] <= pivot)
+        {
+            swap(&arr[cnt], &arr[i]);
+            cnt++;
+        }
+    }
+    
+    quicksort(arr, l, cnt-2);
+    quicksort(arr, cnt, r); 
+}
+int main()
+{
+	//Write code here
+	int* a = NULL;
+	int* b = NULL;
+	int n,m,flag;
+	cin>>n;
+	for(int i=0;i<n;i++)
+	{	flag=0;
+		cin>>m;
+		a=new int[m];
+		b=new int[m];
+		for(int j=0;j<m;j++)
+			{
+				cin>>a[j];
+			}
+		for(int j=0;j<m;j++)
+			{
+				cin>>b[j];
+			}
+		quicksort(a,0,m-1);
+		quicksort(b,0,m-1);
+		for(int i=0;i<m;i++)
+			{
+				if(a[i]>b[i])
+				flag=1;
+			}
+		if(flag=1)
+		cout<<"LOSE";
+		else
+		cout<<"WIN";
+	delete [] a;
+	a=NULL;	
+	delete [] b;
+	b=NULL;	
+	}
+	cout<<endl;
+}
+
+---------------------------------------------------------------------------CODE 2------------------------------------------------------------------------------------
+
+
+#include <iostream>
+using namespace std; 
+ 
+int main()
+{
+	int m,n,max_index,max,prod1,prod2;
+	/*int* a = NULL;
+	int* val= NULL;
+	int* ind = NULL;
+	bool* mat= NULL;*/
+	int a[10000],val[10000],ind[10000];
+	bool mat[10000];
+	cin>>n;
+	for(int i=1;i<=n;i++)
+	{	
+		cin>>m;
+		/*a=new int[m];
+		val=new int[m];
+		ind=new int[m];
+		mat=new bool[m];*/
+		int flag=0;
+		prod1=prod2=1;
+		max=-2147483648;
+		for(int i=1;i<=m;i++)
+		{	
+			cin>>val[i];
+			if(val[i]>0)
+			flag=1;
+			if(val[i]<=0)
+			{	 
+				if(val[i]>max)
+				max=val[i];
+				val[i]=0;
+				mat[i]=true; 
+			}
+			else 
+			mat[i]=false;
+			//cout<<max;
+		} 
+		if(flag==0)
+		{
+			if(max==-2147483648)
+			{
+			cout<<"0"<<endl;
+			continue;
+			}
+			else
+			{
+			cout<<max<<endl;
+			continue;
+			}
+		}
+		a[1]=val[1]; 
+		a[2]=val[2]; 
+		ind[1]=0; 
+		ind[2]=0; 
+		max=a[1]; 
+		max_index=1; 
+		for(int i=3;i<=m;i++)
+		{
+			a[i]=val[i]+max; 
+			ind[i]=max_index; 
+			if(a[i-1]>max)
+			{ 
+				max=a[i-1]; 
+				max_index=i-1; 
+			}
+		}
+		if(a[m]>max)
+		max_index=m; 
+		while(max_index>0&&a[m]!=a[m-1])
+		{	 
+			if(!mat[max_index])
+			cout<<val[max_index]; 
+			max_index=ind[max_index]; 
+		}
+		max_index=m; 
+		while(max_index>0&&a[m]==a[m-1])
+		{	 
+			if(!mat[max_index])
+			prod1*=val[max_index]; 
+			max_index=ind[max_index]; 
+		}
+		max_index=m-1;
+		while(max_index>0&&a[m]==a[m-1])
+		{	 
+			if(!mat[max_index])
+			prod2*=val[max_index]; 
+			max_index=ind[max_index]; 
+		}
+		if(prod1>prod2)
+		{
+		max_index=m; 
+		while(max_index>0&&a[m]==a[m-1])
+		{	 
+			if(!mat[max_index])
+			cout<<val[max_index]; 
+			max_index=ind[max_index]; 
+		}
+		}
+		else
+		{
+		max_index=m-1;
+		while(max_index>0&&a[m]==a[m-1])
+		{	 
+			if(!mat[max_index])
+			cout<<val[max_index]; 
+			max_index=ind[max_index]; 
+		}
+		}
+	cout<<endl;
+	}
+return 0;
+} 
+

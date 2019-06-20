@@ -1,0 +1,47 @@
+num_iterations = int(raw_input())
+
+for i in range(0, num_iterations):
+    question_len = int(raw_input())
+    question = raw_input().split(' ')
+    question = [int(x) for x in question]
+    question.sort()
+    question.reverse()
+    start_element = 0
+    sum_master = []
+    for j in range(0, question_len):
+        temp_question = question[i:]
+        sum_value = 0
+        flag_dict = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 0: 0}
+        for value in temp_question:
+            add_to_sum_flag = 1
+            unique_digits = "".join(set(str(value)))
+            for character in unique_digits:
+                if flag_dict[int(character)] == 1:
+                    add_to_sum_flag = 0
+                    break
+                flag_dict[int(character)] = 1
+            if add_to_sum_flag != 0:
+                sum_value += value
+        sum_master.append(sum_value)
+    print max(sum_master)
+	
+	
+
+
+num_iterations = int(raw_input())
+
+for i in range(0, num_iterations):
+    question_len = int(raw_input())
+    question = raw_input().split(' ')
+    question = [int(x) for x in question]
+	question = [2031, 1872, 963333, 6, 44, 999]
+	question.sort()
+	all_sums = []
+	for i in range(1,len(question)+1):
+		check_string = ''
+		sub_question = question[:i]
+		for number in sub_question:
+			check_string += ''.join(set(str(number)))
+		if len(check_string) == len(''.join(set(check_string))):
+			all_sums.append(sum(sub_question))
+	print('result:{}'.format(max(all_sums)))

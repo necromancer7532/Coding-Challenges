@@ -1,0 +1,65 @@
+#include<iostream>
+#include<vector>
+
+using namespace std;
+int cover(int);
+
+int func_sum(int ind,int elements[1<<10],const vector<int>& a) 
+{
+  if(ind==0) 
+  {
+    return elements[ind]=0;
+  }
+  if(elements[ind]!=-1)
+    return elements[ind];
+
+  int sum=0;
+  for(auto num: a) 
+  {
+    int bitcover=cover(num);
+    if((ind|bitcover)==ind)
+      sum=max(func_sum(ind^cover(num),elements,a)+num,sum);
+  }
+  return elements[ind]=sum;
+}
+
+int cover(int n) 
+{
+  int cover=0;
+  for(int i=1;n/i;i*=10) 
+  {
+    int digit=n/i%10;
+    cover|=1<<digit;
+  }
+  return cover;
+}
+
+int main()
+{
+  
+  int m,n;
+  int temp;
+  int* elements;
+  cin>>n;
+  for (int i=0;i<n;i++)
+  {
+    vector<int> a;
+    cin>>m;
+    for(int j=0;j<m;j++)
+    {
+        cin>>temp;
+        a.push_back(temp);
+    }
+  int elements[1<<10];
+  for (int i=0;i<1<<10;i++) 
+  elements[i]=-1;
+
+  int sum=0;
+  for(int i=0; i<1<<10;i++) 
+  {
+    sum=max(sum,func_sum(i,elements,a));
+  }
+  cout<<sum<<endl;
+  }
+  return 0;
+}
